@@ -149,8 +149,8 @@
 	static const int ref_spacing = 2;
 	
 	NSRect lastRect = rect;
-	lastRect.origin.x = round(lastRect.origin.x) - 0.5;
-	lastRect.origin.y = round(lastRect.origin.y) - 0.5;
+	lastRect.origin.x = round(lastRect.origin.x) + 0.5;
+	lastRect.origin.y = round(lastRect.origin.y) + 0.5;
 	
 	for (PBGitRef *ref in self.objectValue.refs) {
 		NSMutableDictionary* attributes = [self attributesForRefLabelSelected:NO];
@@ -161,9 +161,11 @@
 		newRect.size.height = textSize.height;
 		newRect.origin.y = rect.origin.y + (rect.size.height - newRect.size.height) / 2;
 		
-		[array addObject:[NSValue valueWithRect:newRect]];
-		lastRect = newRect;
-		lastRect.origin.x += (int)lastRect.size.width + ref_spacing;
+		if (NSContainsRect(rect, newRect)) {
+			[array addObject:[NSValue valueWithRect:newRect]];
+			lastRect = newRect;
+			lastRect.origin.x += (int)lastRect.size.width + ref_spacing;
+		}
 	}
 	
 	return array;
@@ -283,7 +285,7 @@
 	if (!contextMenuDelegate)
 		return [self menu];
 
-	int i = [self indexAtX:[view convertPointFromBase:[event locationInWindow]].x];
+	int i = [self indexAtX:[view convertPointFromBase:[event locationInWindow]].x - rect.origin.x];
 	if (i < 0)
 		return [self menu];
 
