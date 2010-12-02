@@ -28,12 +28,12 @@
 	static NSArray *laneColors = nil;
 	if (!laneColors)
 		laneColors = [NSArray arrayWithObjects:
-					  [NSColor colorWithCalibratedRed: 0X4e/256.0 green:0X9A/256.0 blue: 0X06/256.0 alpha: 1.0],
-					  [NSColor colorWithCalibratedRed: 0X20/256.0 green:0X4A/256.0 blue: 0X87/256.0 alpha: 1.0],
-					  [NSColor colorWithCalibratedRed: 0XC4/256.0 green:0XA0/256.0 blue: 0 alpha: 1.0],
-					  [NSColor colorWithCalibratedRed: 0X5C/256.0 green:0X35/256.0 blue: 0X66/256.0 alpha: 1.0],
-					  [NSColor colorWithCalibratedRed: 0XA4/256.0 green:0X00/256.0 blue: 0X00/256.0 alpha: 1.0],
-					  [NSColor colorWithCalibratedRed: 0XCE/256.0 green:0X5C/256.0 blue: 0 alpha: 1.0],
+					  [NSColor colorWithCalibratedRed: 0xcc/256.0 green:0x00/256.0 blue: 0x00/256.0 alpha: 1.0],
+					  [NSColor colorWithCalibratedRed: 0x75/256.0 green:0x50/256.0 blue: 0x7b/256.0 alpha: 1.0],
+					  [NSColor colorWithCalibratedRed: 0x34/256.0 green:0x65/256.0 blue: 0xa4/256.0 alpha: 1.0],
+					  [NSColor colorWithCalibratedRed: 0x73/256.0 green:0xd2/256.0 blue: 0x16/256.0 alpha: 1.0],
+					  [NSColor colorWithCalibratedRed: 0xf5/256.0 green:0x79/256.0 blue: 0x00/256.0 alpha: 1.0],
+					  [NSColor colorWithCalibratedRed: 0xed/256.0 green:0xd4/256.0 blue: 0x00/256.0 alpha: 1.0],
 					  nil];
 
 	return laneColors;
@@ -85,7 +85,7 @@
 
 	NSRect smallOval = { columnOrigin.x - 2, columnOrigin.y + r.size.height * 0.5 - 2, 4, 4};
 	if ( [self isCurrentCommit ] ) {
-		[[NSColor colorWithCalibratedRed: 0Xfc/256.0 green:0Xa6/256.0 blue: 0X4f/256.0 alpha: 1.0] set];
+		[[NSColor colorWithCalibratedRed: 0xed/256.0 green:0xd4/256.0 blue: 0x00/256.0 alpha: 1.0] set];
 	} else {
 		[[NSColor whiteColor] set];
 	}
@@ -145,17 +145,17 @@
 	BOOL isHEAD = [ref.ref isEqualToString:[[[controller repository] headRef] simpleRef]];
 
 	if (isHEAD)
-		return [NSColor colorWithCalibratedRed: 0Xfc/256.0 green:0Xa6/256.0 blue: 0X4f/256.0 alpha: 1.0];
+		return [NSColor colorWithCalibratedRed: 0xf5/256.0 green:0x79/256.0 blue: 0x00/256.0 alpha: 1.0];
 
 	NSString* type = [ref type];
 	if ([type isEqualToString:@"head"])
-		return [NSColor colorWithCalibratedRed: 0Xaa/256.0 green:0Xf2/256.0 blue: 0X54/256.0 alpha: 1.0];
+		return [NSColor colorWithCalibratedRed: 0x8a/256.0 green:0xe2/256.0 blue: 0x34/256.0 alpha: 1.0];
 	else if ([type isEqualToString:@"remote"])
-		return [NSColor colorWithCalibratedRed: 0xb2/256.0 green:0Xdf/256.0 blue: 0Xff/256.0 alpha: 1.0];
+		return [NSColor colorWithCalibratedRed: 0x72/256.0 green:0x9f/256.0 blue: 0xcf/256.0 alpha: 1.0];
 	else if ([type isEqualToString:@"tag"])
-		return [NSColor colorWithCalibratedRed: 0Xfc/256.0 green:0Xed/256.0 blue: 0X4f/256.0 alpha: 1.0];
+		return [NSColor colorWithCalibratedRed: 0xfc/256.0 green:0xaf/256.0 blue: 0x3e/256.0 alpha: 1.0];
 	
-	return [NSColor yellowColor];
+	return [NSColor colorWithCalibratedRed: 0xed/256.0 green:0xd4/256.0 blue: 0x00/256.0 alpha: 1.0];
 }
 
 -(NSArray *)rectsForRefsinRect:(NSRect) rect;
