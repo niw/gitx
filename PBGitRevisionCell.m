@@ -11,6 +11,8 @@
 #import "RoundedRectangle.h"
 #import "GitXTextFieldCell.h"
 
+#define COLUMN_SIZE 6
+
 @implementation PBGitRevisionCell
 
 
@@ -40,7 +42,7 @@
 - (void) drawLineFromColumn: (int) from toColumn: (int) to inRect: (NSRect) r offset: (int) offset color: (int) c
 {
 
-	int columnWidth = 10;
+	int columnWidth = COLUMN_SIZE;
 	NSPoint origin = r.origin;
 	
 	NSPoint source = NSMakePoint(origin.x + columnWidth* from, origin.y + offset);
@@ -72,28 +74,23 @@
 {
 
 	int c = cellInfo.position;
-	int columnWidth = 10;
+	int columnWidth = COLUMN_SIZE;
 	NSPoint origin = r.origin;
 	NSPoint columnOrigin = { origin.x + columnWidth * c, origin.y};
 
-	NSRect oval = { columnOrigin.x - 5, columnOrigin.y + r.size.height * 0.5 - 5, 10, 10};
-
-	
+	NSRect oval = { columnOrigin.x - 4, columnOrigin.y + r.size.height * 0.5 - 4, 8, 8};
 	NSBezierPath * path = [NSBezierPath bezierPathWithOvalInRect:oval];
-
 	[[NSColor blackColor] set];
 	[path fill];
-	
-	NSRect smallOval = { columnOrigin.x - 3, columnOrigin.y + r.size.height * 0.5 - 3, 6, 6};
 
+	NSRect smallOval = { columnOrigin.x - 2, columnOrigin.y + r.size.height * 0.5 - 2, 4, 4};
 	if ( [self isCurrentCommit ] ) {
 		[[NSColor colorWithCalibratedRed: 0Xfc/256.0 green:0Xa6/256.0 blue: 0X4f/256.0 alpha: 1.0] set];
 	} else {
 		[[NSColor whiteColor] set];
 	}
-
 	path = [NSBezierPath bezierPathWithOvalInRect:smallOval];
-	[path fill];	
+	[path fill];
 }
 
 - (void) drawTriangleInRect: (NSRect) r sign: (char) sign
@@ -197,7 +194,7 @@
 	PBGitRef *ref = [refs objectAtIndex:index];
 	
 	NSMutableDictionary* attributes = [self attributesForRefLabelSelected:[self isHighlighted]];
-	NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:rect cornerRadius: 2.0];
+	NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:rect cornerRadius: 3.0];
 	[[self colorForRef:ref] set];
 	[border fill];
 	
@@ -227,7 +224,7 @@
 	cellInfo = [self.objectValue lineInfo];
 	
 	if (cellInfo && ![controller hasNonlinearPath]) {
-		float pathWidth = 10 + 10 * cellInfo.numColumns;
+		float pathWidth = 10 + COLUMN_SIZE * cellInfo.numColumns;
 
 		NSRect ownRect;
 		NSDivideRect(rect, &ownRect, &rect, pathWidth, NSMinXEdge);
