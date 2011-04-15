@@ -32,7 +32,7 @@ body {
 
 #commit_header {
 	width: auto;
-	font-size: 12px;
+	font-size: 10px;
 	padding-left: 5px;
 	padding-right: 5px;
 }
@@ -96,7 +96,7 @@ a.servicebutton {
 }
 
 #header p.subject {
-	font-size: 15px;
+	font-size: 12px;
 	padding: 5px;
 	float: none;
 	font-family: Menlo, Monaco;
@@ -158,7 +158,7 @@ a {
 
 a.showdiff {
 	text-decoration: none;
-	font-size: 1.3em;
+	font-size: 10px;
 }
 
 .refs {
@@ -187,7 +187,7 @@ a.showdiff {
 }
 
 #filelist {
-	font-size: 13px;
+	font-size: 10px;
 	white-space: nowrap;
 	width: 100%;
 	padding: 10px 20px;
@@ -252,7 +252,7 @@ a.showdiff {
 }
 
 #header {
-	font-size: 13px;
+	font-size: 10px;
 	background-image: -webkit-gradient(linear,left top,left bottom, color-stop(.7, #EAF2f6), color-stop(1, #e3ebf3));
 }
 
@@ -262,12 +262,12 @@ a.showdiff {
 
 #header p.time {
 	margin-top: 2px;
-	font-size: 11px;
+	font-size: 10px;
 	white-space: nowrap;
 }
 
 #header p.name {
-	font-size: 15px;
+	font-size: 10px;
 	white-space: nowrap;
 }
 
@@ -284,7 +284,7 @@ a.showdiff {
 
 #header table.references {
 	float: right;
-	font-size: 12px;
+	font-size: 10px;
 	margin: 5px;
 }
 
