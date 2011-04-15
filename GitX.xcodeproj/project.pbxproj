@@ -14,6 +14,7 @@
 				F56439F60F792B2100A579C2 /* ShellScript */,
 			);
 			dependencies = (
+				54021A861358BD99000C4493 /* PBXTargetDependency */,
 			);
 			name = "Generate PList Prefix";
 			productName = "Generate PList Prefix";
@@ -236,6 +237,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		54021A831358BD92000C4493 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 913D5E480E55644600CECEA2;
+			remoteInfo = "cli tool";
+		};
+		54021A851358BD99000C4493 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 913D5E480E55644600CECEA2;
+			remoteInfo = "cli tool";
+		};
 		551BF174112F3F3500265053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1238,6 +1253,7 @@
 			);
 			buildToolPath = /bin/sh;
 			dependencies = (
+				54021A841358BD92000C4493 /* PBXTargetDependency */,
 			);
 			name = libgit2;
 			passBuildSettingsInEnvironment = 1;
@@ -1661,6 +1677,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		54021A841358BD92000C4493 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 913D5E480E55644600CECEA2 /* cli tool */;
+			targetProxy = 54021A831358BD92000C4493 /* PBXContainerItemProxy */;
+		};
+		54021A861358BD99000C4493 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 913D5E480E55644600CECEA2 /* cli tool */;
+			targetProxy = 54021A851358BD99000C4493 /* PBXContainerItemProxy */;
+		};
 		551BF175112F3F3500265053 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 551BF110112F371800265053 /* gitx_askpasswd */;
