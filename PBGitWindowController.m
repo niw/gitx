@@ -33,7 +33,7 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	NSLog(@"Window will close!");
+	//DLog(@"Window will close!");
 
 	if (sidebarController)
 		[sidebarController closeView];
@@ -175,7 +175,8 @@
 
 - (IBAction) refresh:(id)sender
 {
-	[contentController refresh:self];
+    [sidebarController.historyViewController refresh: self];
+    [sidebarController.commitViewController refresh: self];
 }
 
 - (void) updateStatus
@@ -225,7 +226,7 @@
 			sp=[[sidebarController historyViewController] historySplitView];
 			break;
 	}
-	NSLog(@"sp=%@",sp);
+	DLog(@"sp=%@",sp);
 	if(sp!=nil)	{
 		[self collapseSplitView:sp show:[sender isSelectedForSegment:[sender selectedSegment]]];	
 	}
