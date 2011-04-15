@@ -1,6 +1,12 @@
+.DS_Store
 build
-build/revision
-._*
-*.xcodeproj/
-!*.xcodeproj/project.pbxproj
+*.xcodeproj/*.perspective
+*.xcodeproj/*.perspectivev3
+*.xcodeproj/*.pbxuser
+*.xcodeproj/*.mode1
+*.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode2v3
+*.xcodeproj/*.xcworkspace
+xcuserdata
+Snapshots
 Nightly.app.zip
