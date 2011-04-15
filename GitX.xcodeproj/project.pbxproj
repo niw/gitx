@@ -1816,7 +1816,6 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = libgit2;
 				PRODUCT_NAME = GitX;
-				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -1843,7 +1842,6 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = libgit2;
 				PRODUCT_NAME = GitX;
-				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1860,6 +1858,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
@@ -1903,7 +1902,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx_askpasswd;
-				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -1926,7 +1924,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx_askpasswd;
-				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1948,7 +1945,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx_askpasswd;
-				SDKROOT = "";
 			};
 			name = Install;
 		};
@@ -1972,7 +1968,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx;
-				SDKROOT = "";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -1996,7 +1991,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx;
-				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2080,7 +2074,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GitXTesting;
-				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -2111,7 +2104,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GitXTesting;
-				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2141,7 +2133,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SpeedTest;
-				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -2166,7 +2157,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SpeedTest;
-				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
