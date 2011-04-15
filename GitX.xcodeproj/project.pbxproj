@@ -255,6 +255,20 @@
 			remoteGlobalIDString = 913D5E480E55644600CECEA2;
 			remoteInfo = "cli tool";
 		};
+		545342661358D34F002E9C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8022B1411DFCE7F003C21F6;
+			remoteInfo = libgit2;
+		};
+		545342681358D356002E9C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8022B1411DFCE7F003C21F6;
+			remoteInfo = libgit2;
+		};
 		551BF174112F3F3500265053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1347,6 +1361,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				545342671358D34F002E9C43 /* PBXTargetDependency */,
 			);
 			name = GitXTesting;
 			productName = GitXTesting;
@@ -1363,6 +1378,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				545342691358D356002E9C43 /* PBXTargetDependency */,
 			);
 			name = SpeedTest;
 			productName = SpeedTest;
@@ -1706,6 +1722,16 @@
 			isa = PBXTargetDependency;
 			target = 913D5E480E55644600CECEA2 /* cli tool */;
 			targetProxy = 54021A851358BD99000C4493 /* PBXContainerItemProxy */;
+		};
+		545342671358D34F002E9C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8022B1411DFCE7F003C21F6 /* libgit2 */;
+			targetProxy = 545342661358D34F002E9C43 /* PBXContainerItemProxy */;
+		};
+		545342691358D356002E9C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8022B1411DFCE7F003C21F6 /* libgit2 */;
+			targetProxy = 545342681358D356002E9C43 /* PBXContainerItemProxy */;
 		};
 		551BF175112F3F3500265053 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
