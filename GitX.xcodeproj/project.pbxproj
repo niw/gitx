@@ -1836,7 +1836,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1853,7 +1853,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
