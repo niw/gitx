@@ -14,6 +14,7 @@
 				F56439F60F792B2100A579C2 /* ShellScript */,
 			);
 			dependencies = (
+				5447EE07135B09CB00C5EE8D /* PBXTargetDependency */,
 			);
 			name = "Generate PList Prefix";
 			productName = "Generate PList Prefix";
@@ -201,6 +202,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5447EE04135B09C500C5EE8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 913D5E480E55644600CECEA2;
+			remoteInfo = "cli tool";
+		};
+		5447EE06135B09CB00C5EE8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 913D5E480E55644600CECEA2;
+			remoteInfo = "cli tool";
+		};
 		551BF174112F3F3500265053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -354,7 +369,7 @@
 		D8E3B38110DD4E2C001096A3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PBCreateTagSheet.xib; sourceTree = "<group>"; };
 		D8EB6168122F643E00FCCAF4 /* GitXRelativeDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitXRelativeDateFormatter.h; sourceTree = "<group>"; };
 		D8EB6169122F643E00FCCAF4 /* GitXRelativeDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitXRelativeDateFormatter.m; sourceTree = "<group>"; };
-		D8F01C4A12182F19007F729F /* GitX.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = GitX.sdef; sourceTree = "<group>"; };
+		D8F01C4A12182F19007F729F /* GitX.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = GitX.sdef; sourceTree = "<group>"; };
 		D8F01D511218A164007F729F /* NSApplication+GitXScripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+GitXScripting.h"; sourceTree = "<group>"; };
 		D8F01D521218A164007F729F /* NSApplication+GitXScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+GitXScripting.m"; sourceTree = "<group>"; };
 		D8F01D841218A406007F729F /* GitX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitX.h; sourceTree = "<group>"; };
@@ -1052,6 +1067,7 @@
 			);
 			buildToolPath = /bin/sh;
 			dependencies = (
+				5447EE05135B09C500C5EE8D /* PBXTargetDependency */,
 			);
 			name = libgit2;
 			passBuildSettingsInEnvironment = 1;
@@ -1443,6 +1459,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5447EE05135B09C500C5EE8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 913D5E480E55644600CECEA2 /* cli tool */;
+			targetProxy = 5447EE04135B09C500C5EE8D /* PBXContainerItemProxy */;
+		};
+		5447EE07135B09CB00C5EE8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 913D5E480E55644600CECEA2 /* cli tool */;
+			targetProxy = 5447EE06135B09CB00C5EE8D /* PBXContainerItemProxy */;
+		};
 		551BF175112F3F3500265053 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 551BF110112F371800265053 /* gitx_askpasswd */;
@@ -1614,6 +1640,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1627,6 +1654,7 @@
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/revision;
 				INFOPLIST_PREPROCESS = YES;
 				PREBINDING = NO;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
