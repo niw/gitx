@@ -11,8 +11,7 @@
 #import "PBGitLane.h"
 #import "PBGitGraphLine.h"
 #import <list>
-#import "git/oid.h"
-#include <algorithm>
+#import <algorithm>
 
 using namespace std;
 
@@ -47,7 +46,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 
 	PBGitLane *currentLane = NULL;
 	BOOL didFirst = NO;
-	git_oid commit_oid = [[commit sha] oid];
+	NSString *commit_oid = [commit sha];
 	
 	// First, iterate over earlier columns and pass through any that don't want this commit
 	if (previous != nil) {
@@ -90,8 +89,8 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 
 	// If we already did the first parent, don't do so again
 	if (!didFirst && nParents) {
-		git_oid parentOID = [[parents objectAtIndex:0] oid];
-		PBGitLane *newLane = new PBGitLane(&parentOID);
+		NSString *parentOID = [parents objectAtIndex:0];
+		PBGitLane *newLane = new PBGitLane(parentOID);
 		currentLanes->push_back(newLane);
 		newPos = currentLanes->size();
 		add_line(lines, &currentLine, 0, newPos, newPos, newLane->index());
@@ -105,7 +104,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 
 	int parentIndex = 0;
 	for (parentIndex = 1; parentIndex < nParents; ++parentIndex) {
-		git_oid parentOID = [[parents objectAtIndex:parentIndex] oid];
+		NSString *parentOID = [parents objectAtIndex:parentIndex];
 		int i = 0;
 		BOOL was_displayed = NO;
 		std::list<PBGitLane *>::iterator it = currentLanes->begin();
@@ -122,7 +121,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 		
 		// Really add this parent
 		addedParent = YES;
-		PBGitLane *newLane = new PBGitLane(&parentOID);
+		PBGitLane *newLane = new PBGitLane(parentOID);
 		currentLanes->push_back(newLane);
 		add_line(lines, &currentLine, 0, currentLanes->size(), newPos, newLane->index());
 	}
@@ -150,7 +149,7 @@ void add_line(struct PBGitGraphLine *lines, int *nLines, int upper, int from, in
 	// Update the current lane to point to the new parent
 	if (currentLane) {
 		if (nParents > 0)
-			currentLane->setSha([[parents objectAtIndex:0] oid]);
+			currentLane->setSha([parents objectAtIndex:0]);
 		else {
 			// The current lane's commit does not have any parents
 			// AKA, this is a first commit

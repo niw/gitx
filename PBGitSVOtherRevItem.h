@@ -11,8 +11,10 @@
 
 
 @interface PBGitSVOtherRevItem : PBSourceViewItem {
-
+    NSString* helpText;
 }
+
+@property(retain) NSString* helpText;
 
 + (id)otherItemWithRevSpec:(PBGitRevSpecifier *)revSpecifier;
 

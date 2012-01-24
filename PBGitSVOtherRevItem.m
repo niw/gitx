@@ -12,6 +12,8 @@
 
 @implementation PBGitSVOtherRevItem
 
+@synthesize helpText;
+
 
 + (id)otherItemWithRevSpec:(PBGitRevSpecifier *)revSpecifier
 {

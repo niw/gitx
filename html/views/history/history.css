@@ -73,6 +73,7 @@ a.servicebutton {
 	padding: 0.1em;
 	border: solid gray 1px;
 	-webkit-border-radius: 2px;
+	display: none;
 }
 
 .gravatar img {
@@ -80,6 +81,7 @@ a.servicebutton {
 	height: 2.9em;
 	max-height: 60px;
 	max-width: 60px;
+	display: none;
 }
 
 .property_name {
@@ -99,7 +101,6 @@ a.servicebutton {
 	font-size: 12px;
 	padding: 5px;
 	float: none;
-	font-family: Menlo, Monaco;
 }
 
 #files {
@@ -138,7 +139,7 @@ a.servicebutton {
 }
 
 #details {
-	font-family: Monaco;
+	font-family: Menlo;
 	font-size: 10px;
 	overflow: hidden;
 	width: 600px;
@@ -234,11 +235,11 @@ a.showdiff {
 }
 
 #filelist span.add {
-	background-color: green;
+	background-color: rgba(0, 255, 0, 0.199219);
 }
 
 #filelist span.rem {
-	background-color: red;
+	background-color: rgba(255, 0, 0, 0.199219);
 }
 
 #filelist td.bar {
@@ -273,6 +274,7 @@ a.showdiff {
 
 #header span.rol,p.time {
 	color: gray;
+
 }
 
 #header img.avatar {
@@ -308,12 +310,12 @@ a.showdiff {
 	-webkit-box-shadow: inset 0px 5px 5px #ccc;
 	width: 100%;
 	display: block;
-	padding-top: 20px;
+	padding-top: 10px;
 	overflow: auto;
 }
 
 #diffs table.diff {
-	-webkit-box-shadow: 5px 5px 5px #ccc;
+	-webkit-box-shadow:3px 3px 3px #ccc;
 	width: 98%;
 	margin: auto auto 20px 1%;
 }
@@ -321,4 +323,38 @@ a.showdiff {
 .filemerge {
 	float: right;
 	text-align: center;
+}
+
+/* scrollbars */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+    display: block;
+    height: 10px;
+}
+
+::-webkit-scrollbar-button:vertical:increment {
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #eee;
+    -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 50px;
+    background-color: #ccc;
+    -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    width: 50px;
+    background-color: #ccc;
+    -webkit-border-radius: 3px;
 }

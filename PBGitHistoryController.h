@@ -1,5 +1,5 @@
 //
-//  PBGitHistoryView.h
+//  PBGitHistoryController.h
 //  GitX
 //
 //  Created by Pieter de Bie on 19-09-08.
@@ -18,11 +18,12 @@
 @class QLPreviewPanel;
 @class PBCommitList;
 @class GLFileView;
-@class PBGitSHA;
+@class NSString;
 
 @class PBHistorySearchController;
 
-@interface PBGitHistoryController : PBViewController /*<NSOutlineViewDelegate>*/{
+// Controls the split history view from PBGitHistoryView.xib
+@interface PBGitHistoryController : PBViewController PROTOCOL_10_6(NSOutlineViewDelegate){
 	IBOutlet PBRefController *refController;
 	IBOutlet NSSearchField *searchField;
 	IBOutlet NSArrayController* commitController;
@@ -33,7 +34,7 @@
 	IBOutlet PBCommitList* commitList;
 	IBOutlet NSSplitView *historySplitView;
 	IBOutlet PBWebHistoryController *webHistoryController;
-    QLPreviewPanel* previewPanel;
+	QLPreviewPanel* previewPanel;
 	IBOutlet PBHistorySearchController *searchController;
 	IBOutlet GLFileView *fileView;
 
@@ -71,7 +72,7 @@
 - (IBAction) setTreeView:(id)sender;
 - (IBAction) setBranchFilter:(id)sender;
 
-- (void)selectCommit:(PBGitSHA *)commit;
+- (void)selectCommit:(NSString *)commit;
 - (IBAction) refresh:(id)sender;
 - (IBAction) toggleQLPreviewPanel:(id)sender;
 - (IBAction) openSelectedFile:(id)sender;
