@@ -25,12 +25,13 @@
 	IBOutlet NSView *accessoryView;
 	IBOutlet NSSplitView *fileListSplitView;
     IBOutlet NSSearchField *searchField;
+    PBGitTree *lastFile;
 }
 
 - (void)showFile;
 - (void)didLoad;
 - (NSString *)parseBlame:(NSString *)txt;
-+ (NSString *)parseHTML:(NSString *)txt;
++ (NSString *)escapeHTML:(NSString *)txt;
 + (NSString *)parseDiff:(NSString *)txt;
 + (NSString *)parseDiffTree:(NSString *)txt withStats:(NSMutableDictionary *)stats;
 + (NSString *)getFileName:(NSString *)line;

@@ -66,10 +66,12 @@
 	[[SUUpdater sharedUpdater] setSendsSystemProfile:YES];
     [[SUUpdater sharedUpdater] setDelegate:self];
 
+    if ([PBGitDefaults useAskPasswd]) {
 	// Make sure Git's SSH password requests get forwarded to our little UI tool:
-	setenv( "SSH_ASKPASS", [[[NSBundle mainBundle] pathForResource: @"gitx_askpasswd" ofType: @""] UTF8String], 1 );
-	setenv( "DISPLAY", "localhost:0", 1 );
-
+        setenv( "SSH_ASKPASS", [[[NSBundle mainBundle] pathForResource: @"gitx_askpasswd" ofType: @""] UTF8String], 1 );
+        setenv( "DISPLAY", "localhost:0", 1 );
+    }
+       
 	[self registerServices];
 
     BOOL hasOpenedDocuments = NO;
@@ -414,7 +416,7 @@
 
 - (IBAction)reportAProblem:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://gitx.lighthouseapp.com/tickets"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/laullon/gitx/issues"]];
 }
 
 

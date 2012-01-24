@@ -102,42 +102,46 @@
 	NSArray *files=[historyController.treeController selectedObjects];
 	if ([files count]>0) {
 		PBGitTree *file=[files objectAtIndex:0];
-		
-		NSString *fileTxt = @"";
-		if(startFile==@"fileview"){
-			fileTxt=[file textContents:&theError];
-			if(!theError)
-				fileTxt=[GLFileView parseHTML:fileTxt];
-		}else if(startFile==@"blame"){
-			fileTxt=[file blame:&theError];
-			if(!theError)
-				fileTxt=[self parseBlame:fileTxt];
-		}else if(startFile==@"log"){
-			fileTxt=[file log:logFormat error:&theError];		
-		}else if(startFile==@"diff"){
-			fileTxt=[file diff:diffType error:&theError];
-			if(!theError)
-				fileTxt=[GLFileView parseDiff:fileTxt];
-		}
-		
-		id script = [view windowScriptObject];
-		if(!theError){
-			NSString *filePath = [file fullPath];
-            fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"\t" withString:@"&nbsp;&nbsp;&nbsp;&nbsp;"];
-            DLog(@"file.sha='%@'",file.sha);
-            fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA_PREV}" withString:file.sha];
-            if(diffType==@"h") {
-                fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA}" withString:@"HEAD"];
-            }else {
-                fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA}" withString:@"--"];
+		DLog(@"file=%@ == %@ => %d",file,lastFile,[file isEqualTo:lastFile]);
+        if(![file isEqualTo:lastFile]){
+            lastFile=file;
+            
+            NSString *fileTxt = @"";
+            if(startFile==@"fileview"){
+                fileTxt=[file textContents:&theError];
+                if(!theError)
+                    fileTxt=[GLFileView escapeHTML:fileTxt];
+            }else if(startFile==@"blame"){
+                fileTxt=[file blame:&theError];
+                if(!theError)
+                    fileTxt=[self parseBlame:fileTxt];
+            }else if(startFile==@"log"){
+                fileTxt=[file log:logFormat error:&theError];		
+            }else if(startFile==@"diff"){
+                fileTxt=[file diff:diffType error:&theError];
+                if(!theError)
+                    fileTxt=[GLFileView parseDiff:fileTxt];
             }
-			[script callWebScriptMethod:@"showFile" withArguments:[NSArray arrayWithObjects:fileTxt, filePath, nil]];
-		}else{
-			[script callWebScriptMethod:@"setMessage" withArguments:[NSArray arrayWithObjects:[theError localizedDescription], nil]];
-		}
+            
+            id script = [view windowScriptObject];
+            if(!theError){
+                NSString *filePath = [file fullPath];
+                fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"\t" withString:@"&nbsp;&nbsp;&nbsp;&nbsp;"];
+                DLog(@"file.sha='%@'",file.sha);
+                fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA_PREV}" withString:file.sha];
+                if(diffType==@"h") {
+                    fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA}" withString:@"HEAD"];
+                }else {
+                    fileTxt=[fileTxt stringByReplacingOccurrencesOfString:@"{SHA}" withString:@"--"];
+                }
+                [script callWebScriptMethod:@"showFile" withArguments:[NSArray arrayWithObjects:fileTxt, filePath, nil]];
+            }else{
+                [script callWebScriptMethod:@"setMessage" withArguments:[NSArray arrayWithObjects:[theError localizedDescription], nil]];
+            }
+            [self updateSearch:searchField];
+        }
 	}
     
-    [self updateSearch:searchField];
 	
 #ifdef DEBUG_BUILD
     DOMHTMLElement *dom=(DOMHTMLElement *)[[[view mainFrame] DOMDocument] documentElement];
@@ -215,6 +219,7 @@
 			[[view mainFrame] reload];
 		}
 	}
+    lastFile=nil;
 }
 
 - (NSView *)accessoryViewForScopeBar:(MGScopeBar *)scopeBar
@@ -235,13 +240,16 @@
 	[super closeView];
 }
 
-+ (NSString *) parseHTML:(NSString *)txt
++ (NSString *) escapeHTML:(NSString *)txt
 {
-	txt=[txt stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-	txt=[txt stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
-	txt=[txt stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    NSMutableString *newTxt = [NSMutableString stringWithString:txt];
+	[newTxt replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0, [newTxt length])];
+	[newTxt replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0, [newTxt length])];
+	[newTxt replaceOccurrencesOfString:@">" withString:@"&gt;" options:NSLiteralSearch range:NSMakeRange(0, [newTxt length])];
+    [newTxt replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0, [newTxt length])];
+    [newTxt replaceOccurrencesOfString:@"'" withString:@"&apos;" options:NSLiteralSearch range:NSMakeRange(0, [newTxt length])];
 	
-	return txt;
+	return newTxt;
 }
 
 + (NSString *)parseDiffTree:(NSString *)txt withStats:(NSMutableDictionary *)stats
@@ -291,18 +299,18 @@
 
 + (NSString *)parseDiff:(NSString *)txt
 {
-	txt=[self parseHTML:txt];
+	txt=[self escapeHTML:txt];
     
 	NSMutableString *res=[NSMutableString string];
     NSScanner *scan=[NSScanner scannerWithString:txt];
     NSString *block;
     
-    if(![txt hasPrefix:@"diff --git"])
-        [scan scanUpToString:@"diff --git" intoString:&block];  //move to first diff
+    if(![txt hasPrefix:@"diff --"])
+        [scan scanUpToString:@"diff --" intoString:&block];  //move to first diff
     
-    while([scan scanString:@"diff --git" intoString:NULL]){ // is a diff start?
-        [scan scanUpToString:@"\ndiff --git" intoString:&block];
-        [res appendString:[GLFileView parseDiffBlock:[NSString stringWithFormat:@"diff --git %@",block]]];
+    while([scan scanString:@"diff --" intoString:NULL]){ // is a diff start?
+        [scan scanUpToString:@"\ndiff --" intoString:&block];
+        [res appendString:[GLFileView parseDiffBlock:[NSString stringWithFormat:@"diff --%@",block]]];
     }
     
     return res;
@@ -314,7 +322,7 @@
     NSScanner *scan=[NSScanner scannerWithString:txt];
     NSString *block;
     
-    [scan scanUpToString:@"\n@@ " intoString:&block];
+    [scan scanUpToString:@"\n@@" intoString:&block];
     [res appendString:@"<table class='diff'><thead>"];
     [res appendString:[GLFileView parseDiffHeader:block]];
     [res appendString:@"</td></tr></thead><tbody>"];
@@ -323,9 +331,9 @@
         [res appendString:[GLFileView parseBinaryDiff:block]];
     }
     
-    while([scan scanString:@"@@ " intoString:NULL]){
-        [scan scanUpToString:@"\n@@ " intoString:&block];
-        [res appendString:[GLFileView parseDiffChunk:[NSString stringWithFormat:@"@@ %@",block]]];
+    while([scan scanString:@"@@" intoString:NULL]){
+        [scan scanUpToString:@"\n@@" intoString:&block];
+        [res appendString:[GLFileView parseDiffChunk:[NSString stringWithFormat:@"@@%@",block]]];
     }
     
     [res appendString:@"</tbody></table>"];
@@ -338,10 +346,10 @@
 	NSMutableString *res=[NSMutableString string];
     NSScanner *scan=[NSScanner scannerWithString:txt];
     NSString *block;
-
+    
     [scan scanUpToString:@"Binary files" intoString:NULL];
     [scan scanUpToString:@"" intoString:&block];
-
+    
     NSArray *files=[self getFilesNames:block];
     [res appendString:@"<tr class='images'><td>"];
     [res appendString:[NSString stringWithFormat:@"%@<br/>",[files objectAtIndex:0]]];
@@ -358,7 +366,7 @@
         }
     }
     [res appendString:@"</td></tr>"];
-
+    
     return res;
 }
 
@@ -368,44 +376,62 @@
     NSMutableString *res=[NSMutableString string];
     
     NSString *line;
-    int l_line,l_end;
-    int r_line,r_end;
+    int l_line[32]; // FIXME: make dynamic
+    int r_line;
     
     line=[lines nextObject];
     DLog(@"-=%@=-",line);
-    NSString *header=[line substringFromIndex:3];
-    NSRange hr = NSMakeRange(0, [header rangeOfString:@" @@"].location);
-    header=[header substringWithRange:hr];
+	
+	int arity = 0; /* How many files are merged here? Count the '@'! */
+	while ([line characterAtIndex:arity] == '@')
+		arity++;
+	
+    NSRange hr = NSMakeRange(arity+1, [line rangeOfString:@" @@"].location-arity-1);
+    NSString *header=[line substringWithRange:hr];
     
     NSArray *pos=[header componentsSeparatedByString:@" "];
-    NSArray *pos_l=[[pos objectAtIndex:0] componentsSeparatedByString:@","];
-    NSArray *pos_r=[[pos objectAtIndex:1] componentsSeparatedByString:@","];
+    NSArray *pos_r=[[pos objectAtIndex:arity-1] componentsSeparatedByString:@","];
     
-    l_end=l_line=abs([[pos_l objectAtIndex:0]integerValue]);
-    if ([pos_l count]>1) {
-        l_end=l_line+[[pos_l objectAtIndex:1]integerValue];				
-    }
+	for(int i=0; i<arity-1; i++){
+		NSArray *pos_l=[[pos objectAtIndex:i] componentsSeparatedByString:@","];
+		l_line[i]=abs([[pos_l objectAtIndex:0]integerValue]);
+	}
+    r_line=[[pos_r objectAtIndex:0]integerValue];
     
-    r_end=r_line=[[pos_r objectAtIndex:0]integerValue];
-    if ([pos_r count]>1) {
-        r_end=r_line+[[pos_r objectAtIndex:1]integerValue];
-    }
-    
-    [res appendString:[NSString stringWithFormat:@"<tr class='header'><td colspan='3'>%@</td></tr>",line]];
-    do{
-        line=[lines nextObject];
-        NSString *s=[line substringToIndex:1];
-        if([s isEqualToString:@" "]){
-            [res appendString:[NSString stringWithFormat:@"<tr><td class='l'>%d</td><td class='r'>%d</td>",l_line++,r_line++]];
-        }else if([s isEqualToString:@"-"]){
-            [res appendString:[NSString stringWithFormat:@"<tr class='l'><td class='l'>%d</td><td class='r'></td>",l_line++]];
-        }else if([s isEqualToString:@"+"]){
-            [res appendString:[NSString stringWithFormat:@"<tr class='r'><td class='l'></td><td class='r'>%d</td>",r_line++]];
+    [res appendString:[NSString stringWithFormat:@"<tr class='header'><td colspan='%d'>%@</td></tr>",arity+1,line]];
+    while((line=[lines nextObject])){
+        NSString *prefix=[line substringToIndex:arity-1];
+        if([prefix rangeOfString:@"-"].location != NSNotFound){
+            [res appendString:@"<tr class='l'>"];
+			for(int i=0; i<arity-1; i++){
+				if([prefix characterAtIndex:i] == '-'){
+					[res appendString:[NSString stringWithFormat:@"<td class='l'>%d</td>",l_line[i]++]];
+				}else{
+					[res appendString:@"<td class='l'></td>"];
+				}
+			}
+            [res appendString:@"<td class='r'></td>"];
+        }else if([prefix rangeOfString:@"+"].location != NSNotFound){
+            [res appendString:@"<tr class='r'>"];
+			for(int i=0; i<arity-1; i++){
+				if([prefix characterAtIndex:i] == ' '){
+					[res appendString:[NSString stringWithFormat:@"<td class='l'>%d</td>",l_line[i]++]];
+				}else{
+					[res appendString:@"<td class='l'></td>"];
+				}
+			}
+            [res appendString:[NSString stringWithFormat:@"<td class='r'>%d</td>",r_line++]];
+        }else{
+			[res appendString:@"<tr>"];
+			for(int i=0; i<arity-1; i++){
+				[res appendString:[NSString stringWithFormat:@"<td class='l'>%d</td>",l_line[i]++]];
+			}
+			[res appendString:[NSString stringWithFormat:@"<td class='r'>%d</td>",r_line++]];
+		}
+		if(![prefix hasPrefix:@"\\"]){
+            [res appendString:[NSString stringWithFormat:@"<td class='code'>%@</td></tr>",[line substringFromIndex:arity-1]]];								
         }
-        if(![s isEqualToString:@"\\"]){
-            [res appendString:[NSString stringWithFormat:@"<td class='code'>%@</td></tr>",[line substringFromIndex:1]]];								
-        }
-    }while((l_line<l_end) || (r_line<r_end));
+    }
     return res;
 }
 
@@ -416,7 +442,7 @@
     
     NSString *line=[lines nextObject];
     NSString *fileName=[self getFileName:line];
-    [res appendString:[NSString stringWithFormat:@"<tr id='%@'><td colspan='3'><div style='float:left;'>",fileName]];
+    [res appendString:[NSString stringWithFormat:@"<tr id='%@'><td colspan='33'><div style='float:left;'>",fileName]];
     do{
         [res appendString:[NSString stringWithFormat:@"<p>%@</p>",line]];
     }while((line=[lines nextObject]));
@@ -434,8 +460,15 @@
 +(NSString *)getFileName:(NSString *)line
 {
     NSRange b = [line rangeOfString:@"b/"];
-    NSString *file=[line substringFromIndex:b.location+2];
-    return file;
+	if (b.length == 0)
+		b = [line rangeOfString:@"--cc "];
+	
+    NSString *file=[line substringFromIndex:b.location+b.length];
+	
+    DLog(@"line=%@",line);
+    DLog(@"file=%@",file);
+    
+	return file;
 }
 
 +(NSArray *)getFilesNames:(NSString *)line
@@ -490,22 +523,22 @@
 
 +(BOOL)isBinaryFile:(NSString *)line
 {
-    return (([line length]>12) && [[line substringToIndex:12] isEqualToString:@"Binary files"]);
+    return [line hasPrefix:@"Binary files"];
 }
 
 +(BOOL)isStartDiff:(NSString *)line
 {
-    return (([line length]>10) && [[line substringToIndex:10] isEqualToString:@"diff --git"]);
+    return [line hasPrefix:@"diff --"];
 }
 
 +(BOOL)isStartBlock:(NSString *)line
 {
-    return (([line length]>3) && [[line substringToIndex:3] isEqualToString:@"@@ "]);
+    return [line hasPrefix:@"@@"];
 }
 
 - (NSString *) parseBlame:(NSString *)txt
 {
-    txt=[GLFileView parseHTML:txt];
+    txt=[GLFileView escapeHTML:txt];
     
     NSArray *lines = [txt componentsSeparatedByString:@"\n"];
     NSString *line;
@@ -647,14 +680,7 @@
 
 -(IBAction)updateSearch:(NSSearchField *)sender
 {
-    NSString *searchString = [sender stringValue];
-    DLog(@"searchString:%@",searchString);
-    
-    if([searchString length]>0){
-        [view highlightAllOccurencesOfString:searchString];
-    }else{
-        [view removeAllHighlights];
-    }
+    [view updateSearch:sender];
 }
 
 #pragma mark -
