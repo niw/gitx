@@ -39,20 +39,17 @@
 
 - (id) initWithParameters:(NSArray *)params
 {
-	[self initWithParameters:params description:nil];
-	return self;
+	return [self initWithParameters:params description:nil];
 }
 
 - (id) initWithRef:(PBGitRef *)ref
 {
-	[self initWithParameters:[NSArray arrayWithObject:ref.ref] description:ref.shortName];
-	return self;
+	return [self initWithParameters:[NSArray arrayWithObject:ref.ref] description:ref.shortName];
 }
 
 - (id) initWithCoder:(NSCoder *)coder
 {
-	[self initWithParameters:[coder decodeObjectForKey:@"Parameters"] description:[coder decodeObjectForKey:@"Description"]];
-	return self;
+	return [self initWithParameters:[coder decodeObjectForKey:@"Parameters"] description:[coder decodeObjectForKey:@"Description"]];
 }
 
 + (PBGitRevSpecifier *)allBranchesRevSpec
