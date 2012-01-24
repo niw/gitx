@@ -1440,7 +1440,7 @@
 						<reference key="NSSuperview" ref="319362431"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="24227530"/>
-						<int key="NSDividerStyle">3</int>
+						<int key="NSDividerStyle">2</int>
 					</object>
 				</object>
 				<string key="NSFrameSize">{955, 434}</string>
