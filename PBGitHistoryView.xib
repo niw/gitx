@@ -923,7 +923,7 @@
 																	<string>public.url-name</string>
 																</object>
 															</object>
-															<string key="NSFrame">{{1, 0}, {954, 234}}</string>
+															<string key="NSFrame">{{0, 0}, {954, 234}}</string>
 															<reference key="NSSuperview" ref="859052736"/>
 															<reference key="NSNextKeyView"/>
 															<string key="FrameName"/>
